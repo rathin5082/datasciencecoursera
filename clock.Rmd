@@ -1,0 +1,44 @@
+---
+title: "Untitled"
+author: "Rathin Sinha"
+date: "25/10/2021"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+...{r}
+knitr::opts_chunk$set(echo = TRUE)
+lambda <- 0.2 
+n <- 40  
+sims <- 1000  
+sim_exp <- replicate(sims, rexp(n, lambda))  
+means_exp <- apply(sim_exp, 2, mean)
+
+
+Mean comparison
+Sample mean vs theoretical mean
+...{r}
+sampleMean <- mean(mean_sim_data)
+print (paste("Sample Mean = ", sampleMean))
+theoretical_mean <- (1/lambda)
+print (paste("Theoretical Mean = ", theoretical_mean))
+
+
+...{r}
+hist(means_exp, col="blue", main="Theoretical Mean vs. Actual Mean", xlim = c(2,9),breaks=40, xlab = "Simulation Means")
+abline(v=mean(means_exp), lwd="4", col="red")
+
+
+...{r}
+print(paste("Theoretical standard deviation: ", round( (1/lambda)/sqrt(n) ,4)))
+print(paste("Practical standard deviation: ", round(sd(means_exp) ,4))) 
+print(paste("Theoretical variance: ", round( ((1/lambda)/sqrt(n))^2 ,4)))
+print(paste("Sample variance: ", round(sd(means_exp)^2 ,4)))
+
+
+...{r}
+hist(means_exp, prob=TRUE, col="blue", main="Mean Distribution", breaks=20)
+lines(density(means_exp), lwd=3, col="yellow")
+
